@@ -1,0 +1,254 @@
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor Inmobiliario</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .active-tab { border-bottom: 4px solid #3b82f6; color: #3b82f6; }
+        body { background-color: #f3f4f6; }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div id="app" class="max-w-6xl mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="bg-white rounded-xl shadow-sm p-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800">Inmobiliaria Pro</h1>
+                <p class="text-gray-500">Sistema de Administración de Activos</p>
+            </div>
+            <div class="flex space-x-2">
+                <button onclick="switchTab('predios')" id="tab-predios" class="px-6 py-2 font-semibold active-tab transition-all">Propiedades</button>
+                <button onclick="switchTab('clientes')" id="tab-clientes" class="px-6 py-2 font-semibold text-gray-500 hover:text-blue-500 transition-all">Clientes</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main id="content">
+            <!-- Sección Predios -->
+            <section id="section-predios">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-gray-700">Listado de Propiedades</h2>
+                    <button onclick="openPropertyModal()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 shadow-md flex items-center">
+                        <i class="fas fa-plus mr-2"></i> Nuevo Predio
+                    </button>
+                </div>
+                <div id="property-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Las tarjetas se inyectan mediante JavaScript -->
+                </div>
+            </section>
+
+            <!-- Sección Clientes -->
+            <section id="section-clientes" class="hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-gray-700">Base de Clientes</h2>
+                    <button onclick="openClientModal()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 shadow-md flex items-center">
+                        <i class="fas fa-user-plus mr-2"></i> Nuevo Cliente
+                    </button>
+                </div>
+                <div id="client-list" class="bg-white rounded-xl shadow-sm overflow-hidden overflow-x-auto p-4 text-center text-gray-500">
+                    Módulo de clientes en desarrollo...
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals (Property) -->
+    <div id="modal-property" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-8 shadow-2xl">
+            <h3 class="text-2xl font-bold mb-6 text-gray-800">Detalles de la Propiedad</h3>
+            <form id="property-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="hidden" id="p-id">
+                <div class="col-span-2 md:col-span-1">
+                    <label class="block text-sm font-medium text-gray-700">Nombre del Predio</label>
+                    <input type="text" id="p-nombre" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                </div>
+                <div class="col-span-2 md:col-span-1">
+                    <label class="block text-sm font-medium text-gray-700">Dirección</label>
+                    <input type="text" id="p-direccion" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Contacto</label>
+                    <input type="text" id="p-contacto" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Teléfono</label>
+                    <input type="text" id="p-telefono" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Tipo de Propiedad</label>
+                    <select id="p-tipo" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                        <option>Departamento</option>
+                        <option>Casa</option>
+                        <option>Oficina</option>
+                        <option>Local Comercial</option>
+                        <option>Terreno</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Precio (USD)</label>
+                    <input type="number" id="p-precio" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                </div>
+                
+                <hr class="col-span-2 my-2 border-gray-100">
+                <h4 class="col-span-2 font-semibold text-blue-600">Metrajes (m²)</h4>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Techados (x1.0)</label>
+                    <input type="number" id="p-techados" step="0.01" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Terrazas (x0.5)</label>
+                    <input type="number" id="p-terrazas" step="0.01" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Garajes (x1.0)</label>
+                    <input type="number" id="p-garajes" step="0.01" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Depósitos (x1.0)</label>
+                    <input type="number" id="p-depositos" step="0.01" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                </div>
+
+                <div class="col-span-2 flex justify-end space-x-3 mt-6">
+                    <button type="button" onclick="closeModal('modal-property')" class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300">Cancelar</button>
+                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 shadow-lg">Guardar Propiedad</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        let currentTab = 'predios';
+
+        async function fetchData(endpoint) {
+            const res = await fetch(`/api/${endpoint}`);
+            return await res.json();
+        }
+
+        async function saveProperty(e) {
+            e.preventDefault();
+            const data = {
+                id: document.getElementById('p-id').value,
+                nombre: document.getElementById('p-nombre').value,
+                direccion: document.getElementById('p-direccion').value,
+                contacto: document.getElementById('p-contacto').value,
+                telefono: document.getElementById('p-telefono').value,
+                tipo: document.getElementById('p-tipo').value,
+                precio: parseFloat(document.getElementById('p-precio').value),
+                metros_techados: parseFloat(document.getElementById('p-techados').value || 0),
+                metros_terrazas: parseFloat(document.getElementById('p-terrazas').value || 0),
+                metros_garajes: parseFloat(document.getElementById('p-garajes').value || 0),
+                metros_depositos: parseFloat(document.getElementById('p-depositos').value || 0)
+            };
+
+            await fetch('/api/properties', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            closeModal('modal-property');
+            loadProperties();
+        }
+
+        async function deleteProperty(id) {
+            if (!confirm('¿Seguro que desea eliminar esta propiedad?')) return;
+            await fetch(`/api/properties/${id}`, { method: 'DELETE' });
+            loadProperties();
+        }
+
+        async function loadProperties() {
+            const list = document.getElementById('property-list');
+            list.innerHTML = '<div class="col-span-full text-center py-10"><i class="fas fa-circle-notch fa-spin text-4xl text-blue-500"></i></div>';
+            
+            try {
+                const properties = await fetchData('properties');
+                if (properties.length === 0) {
+                    list.innerHTML = '<div class="col-span-full text-center py-10 text-gray-400">No hay propiedades registradas.</div>';
+                    return;
+                }
+                list.innerHTML = properties.map(p => `
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
+                        <div class="bg-gray-50 p-4 border-b flex justify-between items-start">
+                            <div>
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">${p.tipo}</span>
+                                <h3 class="text-lg font-bold text-gray-800">${p.nombre}</h3>
+                                <p class="text-xs text-gray-500"><i class="fas fa-map-marker-alt mr-1"></i>${p.direccion}</p>
+                            </div>
+                            <div class="flex space-x-1">
+                                <button onclick='editProperty(${JSON.stringify(p).replace(/'/g, "&apos;")})' class="p-2 text-gray-400 hover:text-blue-500"><i class="fas fa-edit"></i></button>
+                                <button onclick="deleteProperty('${p.id}')" class="p-2 text-gray-400 hover:text-red-500"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div class="bg-blue-50 p-3 rounded-lg text-center">
+                                    <p class="text-xs text-blue-600 font-medium">Área Total Calc.</p>
+                                    <p class="text-xl font-bold text-blue-800">${p.metrics.area_total} m²</p>
+                                </div>
+                                <div class="bg-green-50 p-3 rounded-lg text-center">
+                                    <p class="text-xs text-green-600 font-medium">Precio Final</p>
+                                    <p class="text-xl font-bold text-green-800">$${p.precio.toLocaleString()}</p>
+                                </div>
+                            </div>
+                            <div class="space-y-2 border-t pt-4">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Precio / m²:</span>
+                                    <span class="font-semibold text-gray-800">$${p.metrics.precio_metro.toLocaleString()}</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Contacto:</span>
+                                    <span class="text-gray-800">${p.contacto || 'N/A'}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                list.innerHTML = '<div class="col-span-full text-center py-10 text-red-500">Error al cargar datos.</div>';
+            }
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.getElementById('section-predios').classList.toggle('hidden', tab !== 'predios');
+            document.getElementById('section-clientes').classList.toggle('hidden', tab !== 'clientes');
+            document.getElementById('tab-predios').classList.toggle('active-tab', tab === 'predios');
+            document.getElementById('tab-clientes').classList.toggle('active-tab', tab === 'clientes');
+            if (tab === 'predios') loadProperties();
+        }
+
+        function openPropertyModal() {
+            document.getElementById('property-form').reset();
+            document.getElementById('p-id').value = '';
+            document.getElementById('modal-property').classList.remove('hidden');
+        }
+
+        function editProperty(p) {
+            document.getElementById('p-id').value = p.id;
+            document.getElementById('p-nombre').value = p.nombre;
+            document.getElementById('p-direccion').value = p.direccion;
+            document.getElementById('p-contacto').value = p.contacto;
+            document.getElementById('p-telefono').value = p.telefono;
+            document.getElementById('p-tipo').value = p.tipo;
+            document.getElementById('p-precio').value = p.precio;
+            document.getElementById('p-techados').value = p.metros_techados;
+            document.getElementById('p-terrazas').value = p.metros_terrazas;
+            document.getElementById('p-garajes').value = p.metros_garajes;
+            document.getElementById('p-depositos').value = p.metros_depositos;
+            document.getElementById('modal-property').classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        document.getElementById('property-form').addEventListener('submit', saveProperty);
+        window.onload = () => loadProperties();
+    </script>
+</body>
+</html>
