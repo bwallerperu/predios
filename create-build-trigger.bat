@@ -1,8 +1,8 @@
 @echo off
 
 :: 1. Set your variables
-set "GITHUB_OWNER="
-set "REPO_NAME="
+set "GITHUB_OWNER=bwallerperu"
+set "REPO_NAME=predios"
 set "TRIGGER_NAME=%REPO_NAME%-deploy-on-tag-suffix"
 
 :: 2. Create the trigger
