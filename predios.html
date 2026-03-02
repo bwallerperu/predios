@@ -1,28 +1,35 @@
-
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestor Inmobiliario</title>
+    <title>Gestor Inmobiliario v1.3</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .active-tab { border-bottom: 4px solid #3b82f6; color: #3b82f6; }
-        body { background-color: #f3f4f6; }
+        body {
+            background-color: #f3f4f6;
+        }
     </style>
 </head>
+
 <body class="min-h-screen">
     <div id="app" class="max-w-6xl mx-auto px-4 py-8">
         <!-- Header -->
-        <header class="bg-white rounded-xl shadow-sm p-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <header
+            class="bg-white rounded-xl shadow-sm p-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <div>
                 <h1 class="text-3xl font-bold text-gray-800">Inmobiliaria Pro</h1>
                 <p class="text-gray-500">Sistema de Administración de Activos</p>
             </div>
-            <div class="flex space-x-2">
-                <button onclick="switchTab('predios')" id="tab-predios" class="px-6 py-2 font-semibold active-tab transition-all">Propiedades</button>
-                <button onclick="switchTab('clientes')" id="tab-clientes" class="px-6 py-2 font-semibold text-gray-500 hover:text-blue-500 transition-all">Clientes</button>
-            </div>
+            <!-- Navigation Tabs -->
+            <nav class="flex space-x-4 mt-4 md:mt-0">
+                <button onclick="switchSection('section-predios')" id="tab-predios"
+                    class="px-4 py-2 font-medium rounded-lg transition-colors bg-blue-100 text-blue-700">Propiedades</button>
+                <button onclick="switchSection('section-clientes')" id="tab-clientes"
+                    class="px-4 py-2 font-medium rounded-lg transition-colors text-gray-500 hover:bg-gray-100">Clientes</button>
+            </nav>
+
         </header>
 
         <!-- Main Content -->
@@ -31,51 +38,101 @@
             <section id="section-predios">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-xl font-semibold text-gray-700">Listado de Propiedades</h2>
-                    <button onclick="openPropertyModal()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 shadow-md flex items-center">
+                    <button id="btn-new-property"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 shadow-md flex items-center">
                         <i class="fas fa-plus mr-2"></i> Nuevo Predio
                     </button>
                 </div>
                 <div id="property-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Las tarjetas se inyectan mediante JavaScript -->
+                    <!-- Cards via JS -->
                 </div>
             </section>
 
             <!-- Sección Clientes -->
             <section id="section-clientes" class="hidden">
                 <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-semibold text-gray-700">Base de Clientes</h2>
-                    <button onclick="openClientModal()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 shadow-md flex items-center">
+                    <h2 class="text-xl font-semibold text-gray-700">Listado de Clientes</h2>
+                    <button id="btn-new-client" onclick="openClientModal()"
+                        class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 shadow-md flex items-center">
                         <i class="fas fa-user-plus mr-2"></i> Nuevo Cliente
                     </button>
                 </div>
-                <div id="client-list" class="bg-white rounded-xl shadow-sm overflow-hidden overflow-x-auto p-4 text-center text-gray-500">
-                    Módulo de clientes en desarrollo...
+                <div id="client-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Cards via JS -->
                 </div>
             </section>
+
+
         </main>
     </div>
 
+
+
+    <!-- Modals (Client) -->
+    <div id="modal-client"
+        class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto p-8 shadow-2xl">
+            <h3 class="text-2xl font-bold mb-6 text-gray-800">Detalles del Cliente</h3>
+            <form id="client-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">ID Cliente</label>
+                    <input type="text" id="c-id" placeholder="Automático si se deja vacío"
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Nombre del Cliente</label>
+                    <input type="text" id="c-nombre" required
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Teléfono</label>
+                    <input type="text" id="c-telefono"
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Propiedades Visitadas</label>
+                    <textarea id="c-props" rows="3"
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm"
+                        placeholder="Nombres de propiedades separadas por comas"></textarea>
+                </div>
+
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button" onclick="closeModal('modal-client')"
+                        class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300">Cancelar</button>
+                    <button type="submit"
+                        class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 shadow-lg font-bold">Guardar
+                        Cliente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Modals (Property) -->
-    <div id="modal-property" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+    <div id="modal-property"
+        class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-8 shadow-2xl">
             <h3 class="text-2xl font-bold mb-6 text-gray-800">Detalles de la Propiedad</h3>
             <form id="property-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input type="hidden" id="p-id">
                 <div class="col-span-2 md:col-span-1">
                     <label class="block text-sm font-medium text-gray-700">Nombre del Predio</label>
-                    <input type="text" id="p-nombre" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                    <input type="text" id="p-nombre" required
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
                 </div>
                 <div class="col-span-2 md:col-span-1">
                     <label class="block text-sm font-medium text-gray-700">Dirección</label>
-                    <input type="text" id="p-direccion" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                    <input type="text" id="p-direccion" required
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
                 </div>
-                <div>
+                <div class="col-span-2 md:col-span-1">
                     <label class="block text-sm font-medium text-gray-700">Contacto</label>
-                    <input type="text" id="p-contacto" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                    <input type="text" id="p-contacto"
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
                 </div>
-                <div>
+                <div class="col-span-2 md:col-span-1">
                     <label class="block text-sm font-medium text-gray-700">Teléfono</label>
-                    <input type="text" id="p-telefono" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                    <input type="text" id="p-telefono"
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Tipo de Propiedad</label>
@@ -88,33 +145,84 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Precio (USD)</label>
-                    <input type="number" id="p-precio" required class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                    <label class="block text-sm font-medium text-gray-700">Tipo de Alquiler / Operación</label>
+                    <select id="p-operacion" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                        <option>Venta</option>
+                        <option>Alquiler</option>
+                    </select>
                 </div>
-                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Precio Venta (USD)</label>
+                    <input type="text" id="p-precio"
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm format-currency">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Precio Min. Venta (USD)</label>
+                    <input type="text" id="p-min-venta"
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm format-currency">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Precio Alquiler (USD)</label>
+                    <input type="text" id="p-precio-alquiler"
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm format-currency">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Precio Min. Alquiler (USD)</label>
+                    <input type="text" id="p-min-alquiler"
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm format-currency">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">% Com Max</label>
+                    <input type="text" id="p-comision-max"
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm format-currency">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">% Com Min</label>
+                    <input type="text" id="p-comision-min"
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm format-currency">
+                </div>
+                <div class="col-span-2">
+                    <label class="block text-sm font-medium text-gray-700">Hol Link (URL)</label>
+                    <input type="url" id="p-hol-link"
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm"
+                        placeholder="https://...">
+                </div>
+                <div class="col-span-2">
+                    <label class="block text-sm font-medium text-gray-700">Notas</label>
+                    <textarea id="p-notas" rows="2"
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm"></textarea>
+                </div>
+
                 <hr class="col-span-2 my-2 border-gray-100">
                 <h4 class="col-span-2 font-semibold text-blue-600">Metrajes (m²)</h4>
-                
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Techados (x1.0)</label>
-                    <input type="number" id="p-techados" step="0.01" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                    <input type="text" id="p-techados"
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm format-currency">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Terrazas (x0.5)</label>
-                    <input type="number" id="p-terrazas" step="0.01" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                    <input type="text" id="p-terrazas"
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm format-currency">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Garajes (x1.0)</label>
-                    <input type="number" id="p-garajes" step="0.01" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                    <input type="text" id="p-garajes"
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm format-currency">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Depósitos (x1.0)</label>
-                    <input type="number" id="p-depositos" step="0.01" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm">
+                    <input type="text" id="p-depositos"
+                        class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm format-currency">
                 </div>
 
                 <div class="col-span-2 flex justify-end space-x-3 mt-6">
-                    <button type="button" onclick="closeModal('modal-property')" class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300">Cancelar</button>
-                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 shadow-lg">Guardar Propiedad</button>
+                    <button type="button" onclick="closeModal('modal-property')"
+                        class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300">Cancelar</button>
+                    <button type="submit"
+                        class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 shadow-lg font-bold">Guardar
+                        Propiedad</button>
                 </div>
             </form>
         </div>
@@ -122,31 +230,102 @@
 
     <!-- Scripts -->
     <script>
-        let currentTab = 'predios';
+        // Currency Formatting Helpers
+        function formatVal(val) {
+            if (val === undefined || val === null || val === '') return '';
+            const num = parseFloat(String(val).replace(/,/g, ''));
+            if (isNaN(num)) return val;
+            return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function unformatVal(val) {
+            if (!val) return 0;
+            return parseFloat(String(val).replace(/,/g, '')) || 0;
+        }
+
+        function setupFormatting() {
+            document.querySelectorAll('.format-currency').forEach(input => {
+                input.addEventListener('blur', (e) => {
+                    e.target.value = formatVal(e.target.value);
+                });
+                input.addEventListener('focus', (e) => {
+                    if (e.target.value) {
+                        e.target.value = String(e.target.value).replace(/,/g, '');
+                    }
+                });
+            });
+        }
+
+
+        function switchSection(sectionId) {
+            document.getElementById('section-predios').classList.add('hidden');
+            document.getElementById('section-clientes').classList.add('hidden');
+            document.getElementById(sectionId).classList.remove('hidden');
+
+            // Tabs Styling
+            const tabs = {
+                'section-predios': 'tab-predios',
+                'section-clientes': 'tab-clientes'
+            };
+
+            Object.values(tabs).forEach(tabId => {
+                const el = document.getElementById(tabId);
+                el.classList.remove('bg-blue-100', 'text-blue-700');
+                el.classList.add('text-gray-500', 'hover:bg-gray-100');
+            });
+
+            const activeTab = document.getElementById(tabs[sectionId]);
+            activeTab.classList.remove('text-gray-500', 'hover:bg-gray-100');
+
+            if (sectionId === 'section-clientes') {
+                activeTab.classList.add('bg-green-100', 'text-green-700');
+            } else {
+                activeTab.classList.add('bg-blue-100', 'text-blue-700');
+            }
+
+            if (sectionId === 'section-clientes') loadClients();
+            else loadProperties();
+        }
 
         async function fetchData(endpoint) {
-            const res = await fetch(`/api/${endpoint}`);
-            return await res.json();
+            try {
+                const res = await fetch(`/api/${endpoint}`);
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                return await res.json();
+            } catch (error) {
+                console.error("Fetch error:", error);
+                return [];
+            }
         }
 
         async function saveProperty(e) {
             e.preventDefault();
+            const id = document.getElementById('p-id').value;
             const data = {
-                id: document.getElementById('p-id').value,
+                id: id,
                 nombre: document.getElementById('p-nombre').value,
                 direccion: document.getElementById('p-direccion').value,
+                tipo: document.getElementById('p-tipo').value,
+                tipo_operacion: document.getElementById('p-operacion').value,
+                precio: unformatVal(document.getElementById('p-precio').value),
+                precio_min_venta: unformatVal(document.getElementById('p-min-venta').value),
+                precio_alquiler: unformatVal(document.getElementById('p-precio-alquiler').value),
+                precio_min_alquiler: unformatVal(document.getElementById('p-min-alquiler').value),
+                notas: document.getElementById('p-notas').value,
+                metros_techados: unformatVal(document.getElementById('p-techados').value),
+                metros_terrazas: unformatVal(document.getElementById('p-terrazas').value),
+                metros_garajes: unformatVal(document.getElementById('p-garajes').value),
+                metros_depositos: unformatVal(document.getElementById('p-depositos').value),
                 contacto: document.getElementById('p-contacto').value,
                 telefono: document.getElementById('p-telefono').value,
-                tipo: document.getElementById('p-tipo').value,
-                precio: parseFloat(document.getElementById('p-precio').value),
-                metros_techados: parseFloat(document.getElementById('p-techados').value || 0),
-                metros_terrazas: parseFloat(document.getElementById('p-terrazas').value || 0),
-                metros_garajes: parseFloat(document.getElementById('p-garajes').value || 0),
-                metros_depositos: parseFloat(document.getElementById('p-depositos').value || 0)
+                hol_link: document.getElementById('p-hol-link').value,
+                comision_max_pct: unformatVal(document.getElementById('p-comision-max').value),
+                comision_min_pct: unformatVal(document.getElementById('p-comision-min').value)
             };
 
-            await fetch('/api/properties', {
-                method: 'POST',
+
+            await fetch(id ? `/api/properties/${id}` : '/api/properties', {
+                method: id ? 'PUT' : 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             });
@@ -155,100 +334,215 @@
             loadProperties();
         }
 
+        function openPropertyModal() {
+            const form = document.getElementById('property-form');
+            const modal = document.getElementById('modal-property');
+
+            if (!form || !modal) {
+                console.error("Required elements not found: property-form or modal-property");
+                return;
+            }
+
+            form.reset();
+            document.getElementById('p-id').value = '';
+            modal.classList.remove('hidden');
+        }
+
+
+
         async function deleteProperty(id) {
             if (!confirm('¿Seguro que desea eliminar esta propiedad?')) return;
             await fetch(`/api/properties/${id}`, { method: 'DELETE' });
             loadProperties();
         }
 
+
+
         async function loadProperties() {
             const list = document.getElementById('property-list');
             list.innerHTML = '<div class="col-span-full text-center py-10"><i class="fas fa-circle-notch fa-spin text-4xl text-blue-500"></i></div>';
-            
-            try {
-                const properties = await fetchData('properties');
-                if (properties.length === 0) {
-                    list.innerHTML = '<div class="col-span-full text-center py-10 text-gray-400">No hay propiedades registradas.</div>';
-                    return;
-                }
-                list.innerHTML = properties.map(p => `
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
-                        <div class="bg-gray-50 p-4 border-b flex justify-between items-start">
-                            <div>
-                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">${p.tipo}</span>
-                                <h3 class="text-lg font-bold text-gray-800">${p.nombre}</h3>
-                                <p class="text-xs text-gray-500"><i class="fas fa-map-marker-alt mr-1"></i>${p.direccion}</p>
-                            </div>
-                            <div class="flex space-x-1">
-                                <button onclick='editProperty(${JSON.stringify(p).replace(/'/g, "&apos;")})' class="p-2 text-gray-400 hover:text-blue-500"><i class="fas fa-edit"></i></button>
-                                <button onclick="deleteProperty('${p.id}')" class="p-2 text-gray-400 hover:text-red-500"><i class="fas fa-trash"></i></button>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <div class="grid grid-cols-2 gap-4 mb-4">
-                                <div class="bg-blue-50 p-3 rounded-lg text-center">
-                                    <p class="text-xs text-blue-600 font-medium">Área Total Calc.</p>
-                                    <p class="text-xl font-bold text-blue-800">${p.metrics.area_total} m²</p>
-                                </div>
-                                <div class="bg-green-50 p-3 rounded-lg text-center">
-                                    <p class="text-xs text-green-600 font-medium">Precio Final</p>
-                                    <p class="text-xl font-bold text-green-800">$${p.precio.toLocaleString()}</p>
-                                </div>
-                            </div>
-                            <div class="space-y-2 border-t pt-4">
-                                <div class="flex justify-between text-sm">
-                                    <span class="text-gray-500">Precio / m²:</span>
-                                    <span class="font-semibold text-gray-800">$${p.metrics.precio_metro.toLocaleString()}</span>
-                                </div>
-                                <div class="flex justify-between text-sm">
-                                    <span class="text-gray-500">Contacto:</span>
-                                    <span class="text-gray-800">${p.contacto || 'N/A'}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-            } catch (e) {
-                list.innerHTML = '<div class="col-span-full text-center py-10 text-red-500">Error al cargar datos.</div>';
+
+            const properties = await fetchData('properties');
+            if (properties.length === 0) {
+                list.innerHTML = '<div class="col-span-full text-center py-10 text-gray-400">No hay propiedades registradas.</div>';
+                return;
             }
-        }
+            list.innerHTML = properties.map(p => `
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="bg-gray-50 p-4 border-b flex justify-between items-start">
+                        <div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">${p.tipo}</span>
+                                <span class="text-[10px] px-1.5 py-0.5 rounded-full font-bold uppercase ${p.tipo_operacion === 'Alquiler' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'}">${p.tipo_operacion || 'Venta'}</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800">${p.nombre}</h3>
+                            <p class="text-xs text-gray-500"><i class="fas fa-map-marker-alt mr-1"></i>${p.direccion}</p>
+                            ${p.contacto ? `<p class="text-xs text-gray-500"><i class="fas fa-user mr-1"></i>${p.contacto}</p>` : ''}
+                            ${p.telefono ? `<p class="text-xs text-gray-500"><i class="fas fa-phone mr-1"></i>${p.telefono}</p>` : ''}
+                        </div>
+                        <div class="flex space-x-1">
+                            ${p.hol_link ? `<a href="${p.hol_link}" target="_blank" title="Ver Master" class="p-2 text-blue-400 hover:text-blue-600"><i class="fas fa-external-link-alt"></i></a>` : ''}
+                            <button onclick='editProperty(${JSON.stringify(p).replace(/'/g, "&apos;")})' class="p-2 text-gray-400 hover:text-blue-500"><i class="fas fa-edit"></i></button>
+                            <button onclick="deleteProperty('${p.id}')" class="p-2 text-gray-400 hover:text-red-500"><i class="fas fa-trash"></i></button>
+                        </div>
 
-        function switchTab(tab) {
-            currentTab = tab;
-            document.getElementById('section-predios').classList.toggle('hidden', tab !== 'predios');
-            document.getElementById('section-clientes').classList.toggle('hidden', tab !== 'clientes');
-            document.getElementById('tab-predios').classList.toggle('active-tab', tab === 'predios');
-            document.getElementById('tab-clientes').classList.toggle('active-tab', tab === 'clientes');
-            if (tab === 'predios') loadProperties();
+                    </div>
+                    <div class="p-4">
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div class="bg-blue-50 p-3 rounded-lg text-center relative border ${p.precio < p.precio_min_venta && p.precio_min_venta > 0 ? 'border-red-300' : 'border-transparent'}">
+                                <p class="text-xs text-blue-600 font-medium">Venta</p>
+                                <p class="text-xl font-bold text-blue-800">$${(p.precio || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                                ${p.precio < p.precio_min_venta && p.precio_min_venta > 0 ? '<span class="absolute -top-1 -right-1 flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span></span>' : ''}
+                            </div>
+                            <div class="bg-green-50 p-3 rounded-lg text-center relative border ${p.precio_alquiler < p.precio_min_alquiler && p.precio_min_alquiler > 0 ? 'border-red-300' : 'border-transparent'}">
+                                <p class="text-xs text-green-600 font-medium">Alquiler</p>
+                                <p class="text-xl font-bold text-green-800">$${(p.precio_alquiler || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                                ${p.precio_alquiler < p.precio_min_alquiler && p.precio_min_alquiler > 0 ? '<span class="absolute -top-1 -right-1 flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span></span>' : ''}
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div class="bg-yellow-50 p-3 rounded-lg text-center">
+                                <p class="text-xs text-yellow-600 font-medium">Comisión Max (${(p.comision_max_pct || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%)</p>
+                                <p class="text-lg font-bold text-yellow-800">$${p.metrics ? p.metrics.comision_max_monto.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0.00'}</p>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-lg text-center">
+                                <p class="text-xs text-gray-600 font-medium">Comisión Min (${(p.comision_min_pct || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%)</p>
+                                <p class="text-lg font-bold text-gray-800">$${p.metrics ? p.metrics.comision_min_monto.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0.00'}</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div class="bg-purple-50 p-3 rounded-lg text-center">
+                                <p class="text-xs text-purple-600 font-medium">Área Total Calc.</p>
+                                <p class="text-lg font-bold text-purple-800">${p.metrics ? p.metrics.area_total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0.00'} m²</p>
+                            </div>
+                            <div class="bg-orange-50 p-3 rounded-lg text-center">
+                                <p class="text-xs text-orange-600 font-medium">Precio / m²</p>
+                                <p class="text-lg font-bold text-orange-800">$${p.metrics ? p.metrics.precio_metro.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0.00'}</p>
+                            </div>
+                        </div>
+                        ${p.notas ? `<p class="text-xs text-gray-500 italic mt-2 line-clamp-2 border-t pt-2">${p.notas}</p>` : ''}
+                    </div>
+                </div>
+            `).join('');
         }
-
-        function openPropertyModal() {
-            document.getElementById('property-form').reset();
-            document.getElementById('p-id').value = '';
-            document.getElementById('modal-property').classList.remove('hidden');
-        }
-
         function editProperty(p) {
             document.getElementById('p-id').value = p.id;
             document.getElementById('p-nombre').value = p.nombre;
             document.getElementById('p-direccion').value = p.direccion;
-            document.getElementById('p-contacto').value = p.contacto;
-            document.getElementById('p-telefono').value = p.telefono;
             document.getElementById('p-tipo').value = p.tipo;
-            document.getElementById('p-precio').value = p.precio;
-            document.getElementById('p-techados').value = p.metros_techados;
-            document.getElementById('p-terrazas').value = p.metros_terrazas;
-            document.getElementById('p-garajes').value = p.metros_garajes;
-            document.getElementById('p-depositos').value = p.metros_depositos;
+            document.getElementById('p-operacion').value = p.tipo_operacion || 'Venta';
+            document.getElementById('p-precio').value = formatVal(p.precio);
+            document.getElementById('p-min-venta').value = formatVal(p.precio_min_venta);
+            document.getElementById('p-precio-alquiler').value = formatVal(p.precio_alquiler);
+            document.getElementById('p-min-alquiler').value = formatVal(p.precio_min_alquiler);
+            document.getElementById('p-notas').value = p.notas || '';
+            document.getElementById('p-techados').value = formatVal(p.metros_techados);
+            document.getElementById('p-terrazas').value = formatVal(p.metros_terrazas);
+            document.getElementById('p-garajes').value = formatVal(p.metros_garajes);
+            document.getElementById('p-depositos').value = formatVal(p.metros_depositos);
+            document.getElementById('p-contacto').value = p.contacto || '';
+            document.getElementById('p-telefono').value = p.telefono || '';
+            document.getElementById('p-hol-link').value = p.hol_link || '';
+            document.getElementById('p-comision-max').value = formatVal(p.comision_max_pct);
+            document.getElementById('p-comision-min').value = formatVal(p.comision_min_pct);
             document.getElementById('modal-property').classList.remove('hidden');
+
         }
 
         function closeModal(id) {
             document.getElementById(id).classList.add('hidden');
         }
 
+        async function loadClients() {
+            const list = document.getElementById('client-list');
+            list.innerHTML = '<div class="col-span-full text-center py-10"><i class="fas fa-circle-notch fa-spin text-4xl text-blue-500"></i></div>';
+
+            const clients = await fetchData('clients');
+            if (clients.length === 0) {
+                list.innerHTML = '<div class="col-span-full text-center py-10 text-gray-400">No hay clientes registrados.</div>';
+                return;
+            }
+            list.innerHTML = clients.map(c => `
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="bg-green-50 p-3 rounded-full">
+                            <i class="fas fa-user text-green-600 text-xl"></i>
+                        </div>
+                        <div class="flex space-x-1">
+                            <button onclick='editClient(${JSON.stringify(c).replace(/'/g, "&apos;")})' class="p-2 text-gray-400 hover:text-green-500"><i class="fas fa-edit"></i></button>
+                            <button onclick="deleteClient('${c.id_cliente}')" class="p-2 text-gray-400 hover:text-red-500"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-1">${c.nombre_cliente}</h3>
+                    <p class="text-sm text-gray-500 mb-4"><i class="fas fa-phone mr-1"></i>${c.tel_cliente || 'Sin teléfono'}</p>
+                    <div class="border-t pt-4">
+                        <p class="text-xs font-bold text-gray-400 uppercase mb-2">Visitas:</p>
+                        <p class="text-sm text-gray-600 italic">${c.props_visitados || 'Ninguna registrada'}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openClientModal() {
+            document.getElementById('client-form').reset();
+            document.getElementById('c-id').readOnly = false;
+            document.getElementById('modal-client').classList.remove('hidden');
+        }
+
+        function editClient(c) {
+            document.getElementById('c-id').value = c.id_cliente;
+            document.getElementById('c-id').readOnly = true;
+            document.getElementById('c-nombre').value = c.nombre_cliente;
+            document.getElementById('c-telefono').value = c.tel_cliente || '';
+            document.getElementById('c-props').value = c.props_visitados || '';
+            document.getElementById('modal-client').classList.remove('hidden');
+        }
+
+        async function saveClient(e) {
+            e.preventDefault();
+            const id = document.getElementById('c-id').value;
+            const data = {
+                id_cliente: id,
+                nombre_cliente: document.getElementById('c-nombre').value,
+                tel_cliente: document.getElementById('c-telefono').value,
+                props_visitados: document.getElementById('c-props').value
+            };
+
+            const isUpdate = document.getElementById('c-id').readOnly;
+
+            await fetch(isUpdate ? `/api/clients/${id}` : '/api/clients', {
+                method: isUpdate ? 'PUT' : 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            closeModal('modal-client');
+            loadClients();
+        }
+
+        async function deleteClient(id) {
+            if (!confirm('¿Seguro que desea eliminar este cliente?')) return;
+            await fetch(`/api/clients/${id}`, { method: 'DELETE' });
+            loadClients();
+        }
+
+        // Initialize
         document.getElementById('property-form').addEventListener('submit', saveProperty);
-        window.onload = () => loadProperties();
+        document.getElementById('client-form').addEventListener('submit', saveClient);
+
+        // Button Listeners
+        const btnNewProperty = document.getElementById('btn-new-property');
+        if (btnNewProperty) {
+            btnNewProperty.addEventListener('click', openPropertyModal);
+            console.log("Event listener attached to btn-new-property");
+        }
+
+        window.onload = () => {
+            console.log("Page Loaded");
+            setupFormatting();
+            loadProperties();
+        };
     </script>
 </body>
+
 </html>
