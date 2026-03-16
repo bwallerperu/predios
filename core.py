@@ -19,7 +19,8 @@ CLIENTS_PATH = "clientes"
 CONFIG_PATH = "configuracion"
 
 # Configuramos Flask para buscar plantillas en el directorio raíz
-app = Flask(__name__, template_folder='.')
+base_dir = os.path.abspath(os.path.dirname(__file__))
+app = Flask(__name__, template_folder=base_dir, static_folder=os.path.join(base_dir, 'static'))
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', os.urandom(24))
 
 # Datos de Autenticación
@@ -181,4 +182,6 @@ def index():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
+    
+
     
