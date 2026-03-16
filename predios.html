@@ -31,6 +31,7 @@
             border-bottom: 1px solid rgba(226, 232, 240, 0.8);
         }
 
+
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -106,13 +107,11 @@
         }
 
         .placeholder-image-bg {
-            background-image: repeating-linear-gradient(
-                45deg,
-                var(--slate-50, #f8fafc),
-                var(--slate-50, #f8fafc) 10px,
-                var(--slate-100, #f1f5f9) 10px,
-                var(--slate-100, #f1f5f9) 20px
-            );
+            background-image: repeating-linear-gradient(45deg,
+                    var(--slate-50, #f8fafc),
+                    var(--slate-50, #f8fafc) 10px,
+                    var(--slate-100, #f1f5f9) 10px,
+                    var(--slate-100, #f1f5f9) 20px);
         }
     </style>
 </head>
@@ -230,20 +229,23 @@
 
             <!-- Sección Configuración -->
             <section id="section-config" class="hidden">
-                 <div class="mb-6">
+                <div class="mb-6">
                     <h2 class="text-lg md:text-xl font-semibold text-gray-700">Configuración del Agente</h2>
-                    <p class="text-sm text-gray-400 mt-1">Estos datos se utilizarán para armar las fichas compartidas.</p>
-                 </div>
-                 <div class="bg-white rounded-[24px] shadow-sm border border-slate-100 p-6 md:p-8 max-w-2xl mx-auto">
+                    <p class="text-sm text-gray-400 mt-1">Estos datos se utilizarán para armar las fichas compartidas.
+                    </p>
+                </div>
+                <div class="bg-white rounded-[24px] shadow-sm border border-slate-100 p-6 md:p-8 max-w-2xl mx-auto">
                     <form id="config-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <!-- Logo de Empresa -->
                         <div class="col-span-1 flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
                             <div class="shrink-0 relative">
-                                <div id="cfg-logo-preview" class="w-20 h-20 rounded-xl bg-slate-50 border border-slate-200 shadow-sm flex flex-col items-center justify-center overflow-hidden">
-                                     <i class="fas fa-building text-2xl text-slate-300"></i>
+                                <div id="cfg-logo-preview"
+                                    class="w-20 h-20 rounded-xl bg-slate-50 border border-slate-200 shadow-sm flex flex-col items-center justify-center overflow-hidden">
+                                    <i class="fas fa-building text-2xl text-slate-300"></i>
                                 </div>
-                                <label for="cfg-logo-input" class="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-md cursor-pointer hover:bg-blue-700 transition-colors">
-                                     <i class="fas fa-camera text-xs"></i>
+                                <label for="cfg-logo-input"
+                                    class="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-md cursor-pointer hover:bg-blue-700 transition-colors">
+                                    <i class="fas fa-camera text-xs"></i>
                                 </label>
                                 <input type="file" id="cfg-logo-input" class="hidden" accept="image/*">
                             </div>
@@ -257,11 +259,13 @@
                         <!-- Foto de Perfil / Agente -->
                         <div class="col-span-1 flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
                             <div class="shrink-0 relative">
-                                <div id="cfg-foto-preview" class="w-20 h-20 rounded-full bg-slate-50 border border-slate-200 shadow-sm flex flex-col items-center justify-center overflow-hidden">
-                                     <i class="fas fa-user-tie text-2xl text-slate-300"></i>
+                                <div id="cfg-foto-preview"
+                                    class="w-20 h-20 rounded-full bg-slate-50 border border-slate-200 shadow-sm flex flex-col items-center justify-center overflow-hidden">
+                                    <i class="fas fa-user-tie text-2xl text-slate-300"></i>
                                 </div>
-                                <label for="cfg-foto-input" class="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-md cursor-pointer hover:bg-emerald-700 transition-colors">
-                                     <i class="fas fa-camera text-xs"></i>
+                                <label for="cfg-foto-input"
+                                    class="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-md cursor-pointer hover:bg-emerald-700 transition-colors">
+                                    <i class="fas fa-camera text-xs"></i>
                                 </label>
                                 <input type="file" id="cfg-foto-input" class="hidden" accept="image/*">
                             </div>
@@ -293,7 +297,8 @@
                                 class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 transition-all">
                         </div>
                         <div class="col-span-1 md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700">Número de Licencia (PNMV, etc.)</label>
+                            <label class="block text-sm font-medium text-gray-700">Número de Licencia (PNMV,
+                                etc.)</label>
                             <input type="text" id="cfg-licencia"
                                 class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 transition-all">
                         </div>
@@ -304,7 +309,7 @@
                             </button>
                         </div>
                     </form>
-                 </div>
+                </div>
             </section>
         </main>
     </div>
@@ -548,9 +553,10 @@
         class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
         <div
             class="modal-sheet bg-white rounded-t-[32px] sm:rounded-3xl w-full max-w-xl max-h-[95vh] overflow-y-auto shadow-2xl relative">
-            
+
             <!-- Sticky Header Actions (Close & Mobile pull bar) -->
-            <div class="absolute top-0 right-0 left-0 w-full z-20 flex justify-between items-start p-4 pointer-events-none">
+            <div
+                class="absolute top-0 right-0 left-0 w-full z-20 flex justify-between items-start p-4 pointer-events-none">
                 <div class="w-12 h-1.5 bg-white/50 rounded-full mx-auto sm:hidden pointer-events-auto"></div>
                 <!-- Empty div for flex spacing -->
                 <div></div>
@@ -560,46 +566,65 @@
             </div>
 
             <!-- Agent Prominent Header -->
-            <div class="bg-gradient-to-r from-slate-800 to-slate-900 pt-10 pb-6 px-6 sm:px-8 flex items-center gap-4 sm:gap-5 relative overflow-hidden">
+            <div
+                class="bg-gradient-to-r from-slate-800 to-slate-900 pt-10 pb-6 px-6 sm:px-8 flex items-center gap-4 sm:gap-5 relative overflow-hidden">
                 <!-- Company Logo Header Bottom Right -->
-                <div id="v-empresa-logo-container" class="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 z-10 w-16 h-16 sm:w-20 sm:h-20 bg-white/10 backdrop-blur-sm rounded-lg items-center justify-center p-2 hidden border border-white/20">
-                     <!-- Company Logo populated via JS -->
+                <div id="v-empresa-logo-container"
+                    class="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 z-10 w-16 h-16 sm:w-20 sm:h-20 bg-white/10 backdrop-blur-sm rounded-lg items-center justify-center p-2 hidden border border-white/20">
+                    <!-- Company Logo populated via JS -->
                 </div>
                 <!-- Configured Agent Photo -->
-                <div id="v-agente-foto-container" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-slate-50 border-[3px] border-white/20 flex flex-col items-center justify-center overflow-hidden shadow-2xl shrink-0 relative z-10">
-                     <i class="fas fa-user-tie text-3xl text-slate-300"></i>
+                <div id="v-agente-foto-container"
+                    class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-slate-50 border-[3px] border-white/20 flex flex-col items-center justify-center overflow-hidden shadow-2xl shrink-0 relative z-10">
+                    <i class="fas fa-user-tie text-3xl text-slate-300"></i>
                 </div>
                 <div class="z-10 text-white flex-1 pr-16 sm:pr-24">
-                    <p id="v-agente-empresa" class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-blue-300 mb-1 line-clamp-1"></p>
-                    <h2 id="v-agente-nombre-header" class="text-xl sm:text-2xl font-bold leading-tight drop-shadow-md"></h2>
-                    <p id="v-agente-telefono-header" class="text-sm sm:text-base text-slate-300 font-medium drop-shadow-sm mt-1 flex items-center"><i class="fas fa-phone-alt mr-2 text-xs"></i><span></span></p>
+                    <p id="v-agente-empresa"
+                        class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-blue-300 mb-1 line-clamp-1">
+                    </p>
+                    <h2 id="v-agente-nombre-header" class="text-xl sm:text-2xl font-bold leading-tight drop-shadow-md">
+                    </h2>
+                    <p id="v-agente-telefono-header"
+                        class="text-sm sm:text-base text-slate-300 font-medium drop-shadow-sm mt-1 flex items-center"><i
+                            class="fas fa-phone-alt mr-2 text-xs"></i><span></span></p>
                 </div>
             </div>
 
             <div class="p-6 sm:p-8">
                 <!-- Property Main Info Section with Small Photo -->
-                <div class="flex gap-4 sm:gap-6 mb-8 items-center bg-white border border-slate-100 rounded-2xl p-4 shadow-sm">
+                <div
+                    class="flex gap-4 sm:gap-6 mb-8 items-center bg-white border border-slate-100 rounded-2xl p-4 shadow-sm">
                     <!-- Small Property Photo -->
-                     <div id="v-foto-container" class="w-24 h-24 sm:w-32 sm:h-32 rounded-xl bg-slate-50 placeholder-image-bg shrink-0 overflow-hidden shadow-inner border border-slate-200">
+                    <div id="v-foto-container"
+                        class="w-24 h-24 sm:w-32 sm:h-32 rounded-xl bg-slate-50 placeholder-image-bg shrink-0 overflow-hidden shadow-inner border border-slate-200">
                         <!-- Image populated via JS -->
-                     </div>
-                     <!-- Basic Details -->
-                     <div class="flex flex-col justify-center flex-1">
+                    </div>
+                    <!-- Basic Details -->
+                    <div class="flex flex-col justify-center flex-1">
                         <div class="flex gap-2 mb-2 flex-wrap">
-                            <span id="v-tipo" class="px-2 py-1 rounded-md bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-widest border border-blue-100"></span>
-                            <span id="v-operacion" class="px-2 py-1 rounded-md bg-emerald-50 text-emerald-600 text-[10px] font-bold uppercase tracking-widest border border-emerald-100"></span>
+                            <span id="v-tipo"
+                                class="px-2 py-1 rounded-md bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-widest border border-blue-100"></span>
+                            <span id="v-operacion"
+                                class="px-2 py-1 rounded-md bg-emerald-50 text-emerald-600 text-[10px] font-bold uppercase tracking-widest border border-emerald-100"></span>
                         </div>
-                        <h3 id="v-nombre" class="text-lg sm:text-xl font-bold text-slate-800 leading-tight mb-1 line-clamp-2"></h3>
-                        <p id="v-direccion" class="text-slate-500 text-[11px] sm:text-xs flex items-center line-clamp-1"><i class="fas fa-map-marker-alt w-3 shrink-0 opacity-70"></i><span class="ml-1"></span></p>
+                        <h3 id="v-nombre"
+                            class="text-lg sm:text-xl font-bold text-slate-800 leading-tight mb-1 line-clamp-2"></h3>
+                        <p id="v-direccion"
+                            class="text-slate-500 text-[11px] sm:text-xs flex items-center line-clamp-1"><i
+                                class="fas fa-map-marker-alt w-3 shrink-0 opacity-70"></i><span class="ml-1"></span></p>
                         <p id="v-precio" class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight mt-2"></p>
-                     </div>
+                    </div>
                 </div>
 
                 <!-- Areas Grid -->
-                <h4 class="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2"><div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 flex items-center justify-center"><i class="fas fa-ruler-combined"></i></div> Distribución de Metrajes (m²)</h4>
+                <h4 class="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 flex items-center justify-center"><i
+                            class="fas fa-ruler-combined"></i></div> Distribución de Metrajes (m²)
+                </h4>
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
                     <div class="bg-purple-50 rounded-2xl p-4 border border-purple-100">
-                        <p class="text-[10px] font-bold text-purple-600 uppercase tracking-widest mb-1">Área Total Calc.</p>
+                        <p class="text-[10px] font-bold text-purple-600 uppercase tracking-widest mb-1">Área Total Calc.
+                        </p>
                         <p id="v-area-total" class="text-2xl font-bold text-purple-900"></p>
                     </div>
                     <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100">
@@ -621,7 +646,8 @@
                 </div>
 
                 <!-- WhatsApp Share Button -->
-                <button id="btn-share-whatsapp" class="w-full bg-[#25D366] text-white py-4 rounded-2xl font-bold text-lg shadow-lg shadow-green-500/20 hover:bg-[#128C7E] hover:shadow-green-500/40 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-3">
+                <button id="btn-share-whatsapp"
+                    class="w-full bg-[#25D366] text-white py-4 rounded-2xl font-bold text-lg shadow-lg shadow-green-500/20 hover:bg-[#128C7E] hover:shadow-green-500/40 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-3">
                     <i class="fab fa-whatsapp text-2xl"></i> Enviar Ficha por WhatsApp
                 </button>
             </div>
@@ -767,7 +793,7 @@
                 }
                 if (!res.ok) throw new Error("Error loading config");
                 agentConfig = await res.json();
-                
+
                 document.getElementById('cfg-empresa').value = agentConfig.empresa || '';
                 document.getElementById('cfg-agente').value = agentConfig.agente || '';
                 document.getElementById('cfg-telefono').value = agentConfig.telefono || '';
@@ -778,11 +804,11 @@
 
                 const dLogo = document.getElementById('desktop-logo');
                 const mLogo = document.getElementById('mobile-logo');
-                
+
                 // Set Header Logos if available
                 if (agentConfig.logo) {
-                    if(dLogo) dLogo.src = agentConfig.logo;
-                    if(mLogo) mLogo.src = agentConfig.logo;
+                    if (dLogo) dLogo.src = agentConfig.logo;
+                    if (mLogo) mLogo.src = agentConfig.logo;
                 }
 
                 // Set inputs/previews
@@ -805,46 +831,46 @@
         }
 
         document.getElementById('btn-save-config').addEventListener('click', async () => {
-             const btn = document.getElementById('btn-save-config');
-             const originalText = btn.innerHTML;
-             btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Guardando...';
-             btn.disabled = true;
+            const btn = document.getElementById('btn-save-config');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Guardando...';
+            btn.disabled = true;
 
-             const data = {
-                 empresa: document.getElementById('cfg-empresa').value,
-                 agente: document.getElementById('cfg-agente').value,
-                 telefono: document.getElementById('cfg-telefono').value,
-                 dni: document.getElementById('cfg-dni').value,
-                 licencia: document.getElementById('cfg-licencia').value,
-                 foto: document.getElementById('cfg-foto-base64').value,
-                 logo: document.getElementById('cfg-logo-base64').value
-             };
+            const data = {
+                empresa: document.getElementById('cfg-empresa').value,
+                agente: document.getElementById('cfg-agente').value,
+                telefono: document.getElementById('cfg-telefono').value,
+                dni: document.getElementById('cfg-dni').value,
+                licencia: document.getElementById('cfg-licencia').value,
+                foto: document.getElementById('cfg-foto-base64').value,
+                logo: document.getElementById('cfg-logo-base64').value
+            };
 
-             try {
-                 await fetch('/api/config', {
-                     method: 'PUT',
-                     headers: { 'Content-Type': 'application/json' },
-                     body: JSON.stringify(data)
-                 });
-                 // Update global
-                 agentConfig = data;
-                 btn.innerHTML = '<i class="fas fa-check"></i> ¡Guardado!';
-                 setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
+            try {
+                await fetch('/api/config', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                // Update global
+                agentConfig = data;
+                btn.innerHTML = '<i class="fas fa-check"></i> ¡Guardado!';
+                setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 2000);
 
-                 // Instantly update header logos
-                 const dLogo = document.getElementById('desktop-logo');
-                 const mLogo = document.getElementById('mobile-logo');
-                 if (data.logo) {
-                    if(dLogo) dLogo.src = data.logo;
-                    if(mLogo) mLogo.src = data.logo;
-                 }
+                // Instantly update header logos
+                const dLogo = document.getElementById('desktop-logo');
+                const mLogo = document.getElementById('mobile-logo');
+                if (data.logo) {
+                    if (dLogo) dLogo.src = data.logo;
+                    if (mLogo) mLogo.src = data.logo;
+                }
 
-             } catch (err) {
-                 console.error("Failed to save config:", err);
-                 btn.innerHTML = originalText;
-                 btn.disabled = false;
-                 alert("Error al guardar la configuración.");
-             }
+            } catch (err) {
+                console.error("Failed to save config:", err);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                alert("Error al guardar la configuración.");
+            }
         });
 
         document.getElementById('cfg-foto-input').addEventListener('change', async (event) => {
@@ -857,7 +883,7 @@
 
             try {
                 // Resize image nicely for profile pic
-                const base64 = await resizeImage(file, 400, 400); 
+                const base64 = await resizeImage(file, 400, 400);
                 hidden.value = base64;
                 preview.innerHTML = `<img src="${base64}" class="w-full h-full object-cover">`;
             } catch (err) {
@@ -876,7 +902,7 @@
 
             try {
                 // Resize image to generic constraints
-                const base64 = await resizeImage(file, 800, 300); 
+                const base64 = await resizeImage(file, 800, 300);
                 hidden.value = base64;
                 preview.innerHTML = `<img src="${base64}" class="w-full h-full object-contain bg-white">`;
             } catch (err) {
@@ -1119,9 +1145,9 @@
                                 <!-- Image -->
                                 <div class="relative w-28 h-28 shrink-0">
                                     ${p.foto ?
-                                    `<img src="${p.foto}" class="w-full h-full object-cover rounded-2xl shadow-sm border border-slate-100">` :
-                                    `<div class="w-full h-full bg-slate-50 rounded-2xl flex items-center justify-center text-slate-300 border border-slate-100 border-dashed"><i class="fas fa-camera text-xl"></i></div>`
-                                }
+                            `<img src="${p.foto}" class="w-full h-full object-cover rounded-2xl shadow-sm border border-slate-100">` :
+                            `<div class="w-full h-full bg-slate-50 rounded-2xl flex items-center justify-center text-slate-300 border border-slate-100 border-dashed"><i class="fas fa-camera text-xl"></i></div>`
+                        }
                                 </div>
                             </div>
                         </div>
@@ -1257,7 +1283,7 @@
             // Populate Agent Config Info
             document.getElementById('v-agente-empresa').textContent = agentConfig.empresa || 'Gestión Inmobiliaria';
             document.getElementById('v-agente-nombre-header').textContent = agentConfig.agente || 'Agente Inmobiliario';
-            
+
             const phoneToShow = agentConfig.telefono || '-';
             document.querySelector('#v-agente-telefono-header span').textContent = phoneToShow;
 
@@ -1268,17 +1294,17 @@
             } else {
                 agenteFotoContainer.innerHTML = `<i class="fas fa-user-tie text-3xl text-slate-300"></i>`;
             }
-            
+
             // Populate Company Logo Config
             const empresaLogoContainer = document.getElementById('v-empresa-logo-container');
             if (agentConfig.logo) {
-                 empresaLogoContainer.innerHTML = `<img src="${agentConfig.logo}" class="max-w-full max-h-full object-contain">`;
-                 empresaLogoContainer.classList.remove('hidden');
-                 empresaLogoContainer.classList.add('flex');
+                empresaLogoContainer.innerHTML = `<img src="${agentConfig.logo}" class="max-w-full max-h-full object-contain">`;
+                empresaLogoContainer.classList.remove('hidden');
+                empresaLogoContainer.classList.add('flex');
             } else {
-                 empresaLogoContainer.classList.add('hidden');
-                 empresaLogoContainer.classList.remove('flex');
-                 empresaLogoContainer.innerHTML = '';
+                empresaLogoContainer.classList.add('hidden');
+                empresaLogoContainer.classList.remove('flex');
+                empresaLogoContainer.innerHTML = '';
             }
 
             document.getElementById('v-area-total').textContent = p.metrics ? p.metrics.area_total.toFixed(2) : '0';
@@ -1301,7 +1327,7 @@
             const isAlquiler = p.tipo_operacion === 'Alquiler';
             const precio = isAlquiler ? p.precio_alquiler : p.precio;
             const precioStr = `$${(precio || 0).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
-            
+
             const agentName = agentConfig.agente || 'Agente Inmobiliario';
             const agentPhone = agentConfig.telefono || '';
             const agentCompany = agentConfig.empresa || '';
@@ -1317,16 +1343,16 @@
             message += `📍 *Ubicación:* ${p.direccion || '-'}\n`;
             message += `🏡 *Tipo:* ${p.tipo || '-'} en ${p.tipo_operacion || 'Venta'}\n`;
             message += `💰 *Precio:* ${precioStr}\n`;
-            
+
             message += `\n📏 *Distribución de Metrajes:*\n`;
             if (totalCalc > 0) message += `• Área Total Calc.: ${totalCalc.toFixed(2)} m²\n`;
             if (techados > 0) message += `• Área Techada (Vivable): ${techados.toFixed(2)} m²\n`;
             if (terrazas > 0) message += `• Área Terrazas: ${terrazas.toFixed(2)} m²\n`;
             if (garajes > 0) message += `• Área Garajes: ${garajes.toFixed(2)} m²\n`;
             if (depositos > 0) message += `• Área Depósitos: ${depositos.toFixed(2)} m²\n`;
-            
+
             if (p.notas) {
-                 message += `\n📝 *Notas:*\n${p.notas}\n`;
+                message += `\n📝 *Notas:*\n${p.notas}\n`;
             }
 
             message += `\n👤 *Contacto:*\n`;
