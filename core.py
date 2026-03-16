@@ -1,8 +1,9 @@
 import os
 import json
 import uuid
+from functools import wraps
 from google.cloud import firestore
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 
 
 # Configuración de Firestore
@@ -15,9 +16,46 @@ db = firestore.Client(project=PROJECT_ID, database=DATABASE_ID)
 # --- RUTAS DE COLECCIONES ---
 PROPERTIES_PATH = "propiedades"
 CLIENTS_PATH = "clientes"
+CONFIG_PATH = "configuracion"
 
 # Configuramos Flask para buscar plantillas en el directorio raíz
 app = Flask(__name__, template_folder='.')
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', os.urandom(24))
+
+# Datos de Autenticación
+APP_USERNAME = os.environ.get('APP_USERNAME', 'admin')
+APP_PASSWORD = os.environ.get('APP_PASSWORD', 'admin123')
+
+# --- AUTENTICACIÓN ---
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'logged_in' not in session:
+            # Si es una petición a la API, devolver 401
+            if request.path.startswith('/api/'):
+                return jsonify({"error": "No autorizado", "status": "unauthorized"}), 401
+            # Si es una petición a una vista, redirigir al login
+            return redirect(url_for('login', next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        if username == APP_USERNAME and password == APP_PASSWORD:
+            session['logged_in'] = True
+            return redirect(url_for('index'))
+        else:
+            error = 'Credenciales incorrectas'
+    return render_template('login.html', error=error)
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    return redirect(url_for('login'))
 
 # --- LÓGICA DE NEGOCIO (Cálculos) ---
 def calculate_metrics(p):
@@ -54,6 +92,7 @@ def calculate_metrics(p):
 # --- RUTAS DE LA API (CRUD) ---
 
 @app.route('/api/properties', methods=['GET', 'POST'])
+@login_required
 def handle_properties():
     if request.method == 'POST':
         data = request.json
@@ -71,6 +110,7 @@ def handle_properties():
     return jsonify(properties)
 
 @app.route('/api/properties/<id>', methods=['DELETE', 'PUT'])
+@login_required
 def handle_property_item(id):
     if request.method == 'DELETE':
         db.collection(PROPERTIES_PATH).document(id).delete()
@@ -83,6 +123,7 @@ def handle_property_item(id):
 # --- CLIENTES API ---
 
 @app.route('/api/clients', methods=['GET', 'POST'])
+@login_required
 def handle_clients():
     if request.method == 'POST':
         data = request.json
@@ -96,6 +137,7 @@ def handle_clients():
     return jsonify(clients)
 
 @app.route('/api/clients/<id>', methods=['DELETE', 'PUT'])
+@login_required
 def handle_client_item(id):
     if request.method == 'DELETE':
         db.collection(CLIENTS_PATH).document(id).delete()
@@ -106,9 +148,29 @@ def handle_client_item(id):
         return jsonify({"status": "updated"})
 
 
+# --- CONFIGURACIÓN API ---
+
+@app.route('/api/config', methods=['GET', 'POST', 'PUT'])
+@login_required
+def handle_config():
+    # Only one config doc for the user/agent
+    doc_ref = db.collection(CONFIG_PATH).document('agent_settings')
+    
+    if request.method == 'GET':
+        doc = doc_ref.get()
+        if doc.exists:
+            return jsonify(doc.to_dict())
+        else:
+            return jsonify({}) # Empty config if not set yet
+
+    if request.method in ['POST', 'PUT']:
+        data = request.json
+        doc_ref.set(data, merge=True)
+        return jsonify({"status": "success", "message": "Configuración guardada"})
 
 # --- RUTA PRINCIPAL ---
 @app.route('/')
+@login_required
 def index():
     # Carga el archivo HTML separado
     return render_template('predios.html')
