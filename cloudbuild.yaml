@@ -22,8 +22,6 @@ steps:
       - '--region=us-central1'
       - '--allow-unauthenticated'
       - '--service-account=predios-runner@$PROJECT_ID.iam.gserviceaccount.com'
-      - '--set-env-vars=APP_USERNAME=admin'
-      - '--set-secrets=APP_PASSWORD=APP_PASSWORD:latest,FLASK_SECRET_KEY=FLASK_SECRET_KEY:latest'
       - '--quiet'
 
 images:

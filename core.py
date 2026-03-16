@@ -23,8 +23,10 @@ app = Flask(__name__, template_folder='.')
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', os.urandom(24))
 
 # Datos de Autenticación
-APP_USERNAME = os.environ.get('APP_USERNAME', 'admin')
-APP_PASSWORD = os.environ.get('APP_PASSWORD', 'admin123')
+VALID_USERS = {
+    "Rosario": os.environ.get('APP_PASSWORD_ROSARIO', "Rose*2026"),
+    "admin": os.environ.get('APP_PASSWORD_ADMIN', "Phaser*925537")
+}
 
 # --- AUTENTICACIÓN ---
 def login_required(f):
@@ -45,8 +47,10 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
-        if username == APP_USERNAME and password == APP_PASSWORD:
+        
+        if username in VALID_USERS and VALID_USERS[username] == password:
             session['logged_in'] = True
+            session['username'] = username  # Opcional: guardar el rol/usuario
             return redirect(url_for('index'))
         else:
             error = 'Credenciales incorrectas'
