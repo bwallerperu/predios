@@ -4,6 +4,7 @@ import uuid
 from functools import wraps
 from google.cloud import firestore
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 # Configuración de Firestore
@@ -23,10 +24,20 @@ base_dir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__, template_folder=base_dir, static_folder=os.path.join(base_dir, 'static'))
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', os.urandom(24))
 
-# Datos de Autenticación
+# Helpers para Autenticación
+def get_password_hash(env_var, default_hash):
+    val = os.environ.get(env_var)
+    if val:
+        # Si ya parece ser un hash, devolverlo. Si no, hashear el texto plano.
+        if val.startswith(('scrypt:', 'pbkdf2:', 'bcrypt:')):
+            return val
+        return generate_password_hash(val)
+    return default_hash
+
+# Datos de Autenticación (Hashes)
 VALID_USERS = {
-    "Rosario": os.environ.get('APP_PASSWORD_ROSARIO', "Rose*2026"),
-    "admin": os.environ.get('APP_PASSWORD_ADMIN', "Phaser*925537")
+    "Rosario": get_password_hash('APP_PASSWORD_ROSARIO', "scrypt:32768:8:1$k3anv6A6jotvvDXo$a88a8b9e9ec55fa6df026cdbd8a16a9408c6fe8be3e7171b8587b30c22af72a277c224f9382cbdc86694d0da4e5cd52a5bc5c7f24268029d9cb3f7be14f383f3"),
+    "admin": get_password_hash('APP_PASSWORD_ADMIN', "scrypt:32768:8:1$AsX0iyRSFJp0ImfM$5e93b64becb289a71071ebe13102fc470a737e2b845ab67ecd611cdcf2554c19a252fc0da35afd993758b51dfc5bcf5e0b8a009d7d9ccae425455d55cbe58de8")
 }
 
 # --- AUTENTICACIÓN ---
@@ -49,7 +60,7 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
         
-        if username in VALID_USERS and VALID_USERS[username] == password:
+        if username in VALID_USERS and check_password_hash(VALID_USERS[username], password):
             session['logged_in'] = True
             session['username'] = username  # Opcional: guardar el rol/usuario
             return redirect(url_for('index'))
@@ -87,9 +98,9 @@ def calculate_metrics(p):
 
         return {
             'area_total': round(area_total, 2),
-            'precio_metro': round(precio_metro, 2),
-            'comision_max_monto': round(comision_max_monto, 2),
-            'comision_min_monto': round(comision_min_monto, 2)
+            'precio_metro': round(precio_metro, 0),
+            'comision_max_monto': round(comision_max_monto, 0),
+            'comision_min_monto': round(comision_min_monto, 0)
         }
     except (ValueError, TypeError):
         return {'area_total': 0, 'precio_metro': 0, 'comision_max_monto': 0, 'comision_min_monto': 0}
