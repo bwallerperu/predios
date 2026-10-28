@@ -18,3 +18,12 @@ Interes\. also add a field called DNI/CE to store a value for the national ID in
 
 [2026-10-28T13:55:35-05:00] [branch: main]
 PLace a picture if available of the logged in user up in the top rught corner .. if no pucture exists put an icon
+
+[2026-10-28T14:43:54-05:00] [branch: main]
+How Can I run this locally
+
+[2026-10-28T14:50:10-05:00] [branch: main]
+In the case where you have no photo for the user account in the main work screen place a circle with the first initial of the username in white in a teal colored circle
+
+[2026-10-28T14:55:07-05:00] [branch: main]
+what would be the git pus command to push these locan changes to my git repo

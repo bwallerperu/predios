@@ -158,8 +158,10 @@
                 <div id="desktop-user-avatar"
                     onclick="switchSection('section-config')"
                     title="{{ session.get('username', 'Usuario') }} - Ver perfil"
-                    class="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 shadow-sm flex items-center justify-center overflow-hidden cursor-pointer hover:ring-2 hover:ring-blue-500/30 transition-all shrink-0">
-                    <i class="fas fa-user text-slate-400 text-base"></i>
+                    class="w-10 h-10 rounded-full border border-teal-700/20 shadow-sm flex items-center justify-center overflow-hidden cursor-pointer hover:ring-2 hover:ring-teal-500/30 transition-all shrink-0">
+                    <div class="w-full h-full rounded-full bg-teal-600 text-white flex items-center justify-center font-bold text-base select-none leading-none">
+                        {{ ((session.get('username') or 'U')|trim)[0]|upper }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -176,8 +178,10 @@
                 <div id="mobile-user-avatar"
                     onclick="switchSection('section-config')"
                     title="{{ session.get('username', 'Usuario') }}"
-                    class="w-9 h-9 rounded-full bg-slate-100 border border-slate-200 shadow-sm flex items-center justify-center overflow-hidden cursor-pointer hover:ring-2 hover:ring-blue-500/30 transition-all shrink-0">
-                    <i class="fas fa-user text-slate-400 text-sm"></i>
+                    class="w-9 h-9 rounded-full border border-teal-700/20 shadow-sm flex items-center justify-center overflow-hidden cursor-pointer hover:ring-2 hover:ring-teal-500/30 transition-all shrink-0">
+                    <div class="w-full h-full rounded-full bg-teal-600 text-white flex items-center justify-center font-bold text-sm select-none leading-none">
+                        {{ ((session.get('username') or 'U')|trim)[0]|upper }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -805,11 +809,16 @@
             else loadProperties();
         }
 
+        function getAvatarInitial() {
+            const username = "{{ session.get('username', '') }}" || (agentConfig && agentConfig.agente) || 'Usuario';
+            return (username.trim().charAt(0) || 'U').toUpperCase();
+        }
+
         function handleAvatarError(imgEl, isMobile) {
             if (!imgEl || !imgEl.parentElement) return;
-            imgEl.parentElement.innerHTML = isMobile ?
-                '<i class="fas fa-user text-slate-400 text-sm"></i>' :
-                '<i class="fas fa-user text-slate-400 text-base"></i>';
+            const initial = getAvatarInitial();
+            const textSize = isMobile ? 'text-sm' : 'text-base';
+            imgEl.parentElement.innerHTML = `<div class="w-full h-full rounded-full bg-teal-600 text-white flex items-center justify-center font-bold ${textSize} select-none leading-none">${initial}</div>`;
         }
 
         function updateUserAvatar(foto, name) {
@@ -818,20 +827,21 @@
             const mobileAvatar = document.getElementById('mobile-user-avatar');
             const desktopUserName = document.getElementById('desktop-user-name');
             const displayName = name || (agentConfig && agentConfig.agente) || "{{ session.get('username', 'Usuario') }}";
+            const initial = getAvatarInitial();
 
             if (desktopUserName && displayName) {
                 desktopUserName.textContent = displayName;
             }
 
-            const desktopIconHtml = '<i class="fas fa-user text-slate-400 text-base"></i>';
-            const mobileIconHtml = '<i class="fas fa-user text-slate-400 text-sm"></i>';
+            const desktopInitialHtml = `<div class="w-full h-full rounded-full bg-teal-600 text-white flex items-center justify-center font-bold text-base select-none leading-none">${initial}</div>`;
+            const mobileInitialHtml = `<div class="w-full h-full rounded-full bg-teal-600 text-white flex items-center justify-center font-bold text-sm select-none leading-none">${initial}</div>`;
 
             if (desktopAvatar) {
                 desktopAvatar.title = displayName ? `${displayName} - Configuración` : 'Configuración';
                 if (photoUrl && photoUrl.trim() !== '') {
                     desktopAvatar.innerHTML = `<img src="${photoUrl}" alt="${displayName || 'Usuario'}" class="w-full h-full object-cover rounded-full" onerror="handleAvatarError(this, false)">`;
                 } else {
-                    desktopAvatar.innerHTML = desktopIconHtml;
+                    desktopAvatar.innerHTML = desktopInitialHtml;
                 }
             }
 
@@ -840,7 +850,7 @@
                 if (photoUrl && photoUrl.trim() !== '') {
                     mobileAvatar.innerHTML = `<img src="${photoUrl}" alt="${displayName || 'Usuario'}" class="w-full h-full object-cover rounded-full" onerror="handleAvatarError(this, true)">`;
                 } else {
-                    mobileAvatar.innerHTML = mobileIconHtml;
+                    mobileAvatar.innerHTML = mobileInitialHtml;
                 }
             }
         }
