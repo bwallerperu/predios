@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: predios-deployment
+  namespace: default
+  labels:
+    app: predios
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: predios
+  template:
+    metadata:
+      labels:
+        app: predios
+    spec:
+      serviceAccountName: predios-sa
+      containers:
+      - name: predios-app
+        image: gcr.io/surfn-peru/predios-app:latest
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 8080
+        env:
+        - name: PORT
+          value: "8080"
+        - name: FLASK_SECRET_KEY
+          value: "Phaser*925537"
+        - name: APP_PASSWORD_ADMIN
+          value: "Adm_Prd_2026_!!"
+        - name: APP_PASSWORD_ROSARIO
+          value: "Rose*2026"
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+          limits:
+            cpu: "250m"
+            memory: "512Mi"
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 3
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 20
+          timeoutSeconds: 3

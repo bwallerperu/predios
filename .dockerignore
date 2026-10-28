@@ -1,0 +1,16 @@
+.git
+.gitignore
+.venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.agent
+*.log
+*.bat
+*.sh
+ISCO-Terraform-Servers.txt
+Vibe-sa-security.txt
+k8s/
+PROMPT_HISTORY.log
+.dockerignore

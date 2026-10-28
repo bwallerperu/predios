@@ -1,0 +1,5 @@
+gcloud iam service-accounts add-iam-policy-binding predios-runner@surfn-peru.iam.gserviceaccount.com --member="serviceAccount:1087744597190@cloudbuild.gserviceaccount.com" --role="roles/iam.serviceAccountUser"
+
+gcloud projects add-iam-policy-binding surfn-peru --member="serviceAccount:predios-runner@surfn-peru.iam.gserviceaccount.com" --role="roles/datastore.user"
+
+gcloud projects add-iam-policy-binding surfn-peru --member="serviceAccount:predios-runner@surfn-peru.iam.gserviceaccount.com" --role="roles/datastore.user" --condition=None
