@@ -27,3 +27,41 @@ In the case where you have no photo for the user account in the main work screen
 
 [2026-10-28T14:55:07-05:00] [branch: main]
 what would be the git pus command to push these locan changes to my git repo
+
+[2026-10-28T15:02:16-05:00] [branch: main]
+C:\Apps\predios>git push origin main
+To https://github.com/bwallerperu/predios.git
+ ! [rejected]        main -> main (non-fast-forward)
+error: failed to push some refs to 'https://github.com/bwallerperu/predios.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. If you want to integrate the remote changes,
+hint: use 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+Gettin those errors when pushing what should i do
+
+[2026-10-28T15:05:23-05:00] [branch: main]
+what command do I run to have a container created from the copy in Git and stored the gcr.io
+
+
+[2026-11-23T10:51:50-05:00] [branch: main]
+@[g:\My Drive\!!-BBW-Desktop-!!\Google-Kube\predios.yaml] 
+This is the YAML file that I used to deploy a container into a Kubernetes cluster. Up until last week it worked. Please give me a new YAML file that will work in the new Autopilot Kubernetes environment. 
+
+
+[2026-11-23T10:59:36-05:00] [branch: main]
+Unschedulable pods
+[kube-state-metrics-0](https://console.cloud.google.com/kubernetes/pod/gkem:eyJnY3BMb2NhdGlvbiI6InVzLWVhc3Q0LWEiLCJna2VNZW1iZXJzaGlwIjp7Im5hbWUiOiIiLCJsb2NhdGlvbiI6IiIsInByb2plY3RJZCI6IiJ9fQ%3D%3D/td-auto-cluster-1/gke-managed-cim/kube-state-metrics-0?cloudshell=true&project=surfn-peru)
+[kube-dns-68476f8477-jqx27](https://console.cloud.google.com/kubernetes/pod/gkem:eyJnY3BMb2NhdGlvbiI6InVzLWVhc3Q0LWEiLCJna2VNZW1iZXJzaGlwIjp7Im5hbWUiOiIiLCJsb2NhdGlvbiI6IiIsInByb2plY3RJZCI6IiJ9fQ%3D%3D/td-auto-cluster-1/kube-system/kube-dns-68476f8477-jqx27?cloudshell=true&project=surfn-peru)
+[event-exporter-gke-657fcc68bf-qfwk6](https://console.cloud.google.com/kubernetes/pod/gkem:eyJnY3BMb2NhdGlvbiI6InVzLWVhc3Q0LWEiLCJna2VNZW1iZXJzaGlwIjp7Im5hbWUiOiIiLCJsb2NhdGlvbiI6IiIsInByb2plY3RJZCI6IiJ9fQ%3D%3D/td-auto-cluster-1/kube-system/event-exporter-gke-657fcc68bf-qfwk6?cloudshell=true&project=surfn-peru)
+[filestore-lock-release-controller-5647d5d7f-8jgrm](https://console.cloud.google.com/kubernetes/pod/gkem:eyJnY3BMb2NhdGlvbiI6InVzLWVhc3Q0LWEiLCJna2VNZW1iZXJzaGlwIjp7Im5hbWUiOiIiLCJsb2NhdGlvbiI6IiIsInByb2plY3RJZCI6IiJ9fQ%3D%3D/td-auto-cluster-1/kube-system/filestore-lock-release-controller-5647d5d7f-8jgrm?cloudshell=true&project=surfn-peru)
+
+
+[2026-11-23T11:00:40-05:00] [branch: main]
+give me a download to copy the new yaml file
+
+[2026-11-23T20:19:20-05:00] [branch: main]
+Using the YAML file that was created, when I push this application into a Kubernetes cluster, it no longer accesses the Firestore database. What could be wrong?
+
+[2026-11-23T20:27:02-05:00] [branch: main]
+Let's correct the application so that it is back to a good status with all of the services that we have placed in it, and sync it with GitHub and create the appropriate Yamofile to push this into a Kubernetes cluster.

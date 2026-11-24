@@ -8,8 +8,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 
 # Configuración de Firestore
-PROJECT_ID = "surfn-peru"
-DATABASE_ID = "predios"
+PROJECT_ID = os.environ.get("PROJECT_ID", os.environ.get("GOOGLE_CLOUD_PROJECT", "surfn-peru"))
+DATABASE_ID = os.environ.get("DATABASE_ID", "predios")
 
 # Inicializar cliente de Firestore
 db = firestore.Client(project=PROJECT_ID, database=DATABASE_ID)
